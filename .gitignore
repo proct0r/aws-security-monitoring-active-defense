@@ -1,0 +1,4 @@
+evidence/
+*.pem
+.aws/
+.env

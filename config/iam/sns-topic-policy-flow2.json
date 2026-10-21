@@ -1,0 +1,17 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowEventBridgeToPublishFlow2",
+      "Effect": "Allow",
+      "Principal": { "Service": "events.amazonaws.com" },
+      "Action": "sns:Publish",
+      "Resource": "arn:aws:sns:af-south-1:<ACCOUNT_ID>:SoloGaurd-SecurityAlert-Flow2",
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": "arn:aws:events:af-south-1:<ACCOUNT_ID>:rule/SoloGaurd-SensitiveSecretAccess-EventBridge"
+        }
+      }
+    }
+  ]
+}

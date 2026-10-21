@@ -1,0 +1,6 @@
+{
+  "InputPathsMap": {
+    "userName": "$.detail.userIdentity.userName"
+  },
+  "InputTemplate": "{\"UserName\": [<userName>]}"
+}

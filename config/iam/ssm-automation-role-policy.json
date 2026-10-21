@@ -1,0 +1,26 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "QuarantineOnlyTheVictimUserWithOnlyThisBoundary",
+      "Effect": "Allow",
+      "Action": "iam:PutUserPermissionsBoundary",
+      "Resource": "arn:aws:iam::<ACCOUNT_ID>:user/Victim",
+      "Condition": {
+        "StringEquals": {
+          "iam:PermissionsBoundary": "arn:aws:iam::<ACCOUNT_ID>:policy/SoloGaurd-QuarantineBoundary"
+        }
+      }
+    },
+    {
+      "Sid": "VerifyAndKillSwitchOnVictimOnly",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetUser",
+        "iam:ListAccessKeys",
+        "iam:UpdateAccessKey"
+      ],
+      "Resource": "arn:aws:iam::<ACCOUNT_ID>:user/Victim"
+    }
+  ]
+}

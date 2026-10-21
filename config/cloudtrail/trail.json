@@ -1,0 +1,9 @@
+{
+  "Name": "SoloGaurd-Trail",
+  "S3BucketName": "sologaurd-cloudtrail-<ACCOUNT_ID>",
+  "IsMultiRegionTrail": true,
+  "IncludeGlobalServiceEvents": true,
+  "EnableLogFileValidation": true,
+  "CloudWatchLogsLogGroupArn": "arn:aws:logs:af-south-1:<ACCOUNT_ID>:log-group:aws-cloudtrail-logs-sologaurd:*",
+  "CloudWatchLogsRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/SoloGaurd-CloudTrailToCWLRole"
+}

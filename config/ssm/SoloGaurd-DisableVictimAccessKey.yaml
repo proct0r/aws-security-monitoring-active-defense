@@ -1,0 +1,25 @@
+description: |
+  SoloGaurd kill-switch (first implementation): set the access key that made the
+  sensitive call to Inactive. Subsequent calls fail at the authentication layer
+  (InvalidClientTokenId / UnrecognizedClientException), not with AccessDenied.
+schemaVersion: '0.3'
+assumeRole: '{{ AutomationAssumeRole }}'
+parameters:
+  UserName:
+    type: String
+    allowedPattern: '^[\w+=,.@-]{1,64}$'
+  AccessKeyId:
+    type: String
+    allowedPattern: '^AKIA[A-Z0-9]{16}$'
+  AutomationAssumeRole:
+    type: String
+    default: 'arn:aws:iam::<ACCOUNT_ID>:role/SoloGaurd-SSMAutomationRole'
+mainSteps:
+  - name: DeactivateAccessKey
+    action: 'aws:executeAwsApi'
+    inputs:
+      Service: iam
+      Api: UpdateAccessKey
+      UserName: '{{ UserName }}'
+      AccessKeyId: '{{ AccessKeyId }}'
+      Status: Inactive

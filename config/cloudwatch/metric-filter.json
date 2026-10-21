@@ -1,0 +1,13 @@
+{
+  "logGroupName": "aws-cloudtrail-logs-sologaurd",
+  "filterName": "SoloGaurd-SensitiveSecretAccess-Filter",
+  "filterPattern": "{ ($.eventSource = \"secretsmanager.amazonaws.com\") && ($.eventName = \"GetSecretValue\") && ($.requestParameters.secretId = \"*Production_Database_Credentials*\") }",
+  "metricTransformations": [
+    {
+      "metricName": "SensitiveSecretAccess",
+      "metricNamespace": "SoloGaurd/Security",
+      "metricValue": "1",
+      "defaultValue": 0
+    }
+  ]
+}

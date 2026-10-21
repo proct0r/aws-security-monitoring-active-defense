@@ -1,0 +1,14 @@
+{
+  "AlarmName": "SoloGaurd-SensitiveSecretAccess-Alarm",
+  "AlarmDescription": "Detects access to the protected Production_Database_Credentials secret through AWS Secrets Manager. The alarm is triggered when the SensitiveSecretAccess metric reaches or exceeds 1 within a 1-minute period and sends a security notification through the Flow 1 SNS topic.",
+  "Namespace": "SoloGaurd/Security",
+  "MetricName": "SensitiveSecretAccess",
+  "Statistic": "Sum",
+  "Period": 60,
+  "EvaluationPeriods": 1,
+  "DatapointsToAlarm": 1,
+  "Threshold": 1,
+  "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+  "TreatMissingData": "notBreaching",
+  "AlarmActions": ["arn:aws:sns:af-south-1:<ACCOUNT_ID>:SoloGaurd-SecurityAlert-Flow1"]
+}

@@ -1,0 +1,35 @@
+description: |
+  SoloGaurd active defense: attach the deny-all quarantine permissions boundary
+  to an IAM user. The user and their access key stay intact (so forensics and a
+  clean authorization-layer AccessDenied are preserved), but every action is
+  explicitly denied.
+schemaVersion: '0.3'
+assumeRole: '{{ AutomationAssumeRole }}'
+parameters:
+  UserName:
+    type: String
+    description: IAM user to quarantine (passed in from the EventBridge event).
+    allowedPattern: '^[\w+=,.@-]{1,64}$'
+  BoundaryArn:
+    type: String
+    default: 'arn:aws:iam::<ACCOUNT_ID>:policy/SoloGaurd-QuarantineBoundary'
+  AutomationAssumeRole:
+    type: String
+    default: 'arn:aws:iam::<ACCOUNT_ID>:role/SoloGaurd-SSMAutomationRole'
+mainSteps:
+  - name: AttachQuarantineBoundary
+    action: 'aws:executeAwsApi'
+    inputs:
+      Service: iam
+      Api: PutUserPermissionsBoundary
+      UserName: '{{ UserName }}'
+      PermissionsBoundary: '{{ BoundaryArn }}'
+  - name: VerifyBoundary
+    action: 'aws:assertAwsResourceProperty'
+    inputs:
+      Service: iam
+      Api: GetUser
+      UserName: '{{ UserName }}'
+      PropertySelector: '$.User.PermissionsBoundary.PermissionsBoundaryArn'
+      DesiredValues:
+        - '{{ BoundaryArn }}'

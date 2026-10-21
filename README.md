@@ -91,6 +91,14 @@ flowchart LR
     IAM -. next call .-> D["❌ AccessDeniedException<br/>+ CloudTrail errorCode=AccessDenied"]
 ```
 
+<details>
+<summary>Planning-stage design sketch</summary>
+
+![Design overview](images/design-overview.png)
+
+*Early design illustration (not a deployment screenshot). It shows Lambda as the responder; the implemented and tested lab uses SSM Automation instead — see §8.3.*
+</details>
+
 > **Timing caveat.** The first read is *allowed to succeed* — that is what produces the detection event. CloudTrail delivery, rule evaluation, the automation run and IAM propagation all take time, so containment applies to the **next** attempt, not the first.
 
 ---
